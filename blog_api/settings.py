@@ -30,10 +30,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dwerfsagfgoiuqhergqeuyhrtiqeyrugaergq)'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'blog_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'salom_db',
-        'USER': 'postgres',
-        'PASSWORD': 123456,
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
         'HOST': 'localhost',
-        'PORT': 5432
+        'PORT': env('DB_PORT')
     }
 }
 
@@ -154,11 +154,11 @@ SIMPLE_JWT = {
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
 
-EMAIL_HOST_USER = 'isloomoov@gmail.com'
-EMAIL_HOST_PASSWORD = 'ttfrxbthctdpelby'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 MEDIA_URL = 'media/'
