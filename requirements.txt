@@ -8,3 +8,8 @@ Faker==18.7.0
 factory-boy==3.2.1
 Pillow==9.5.0
 django-filter==23.2
+facebook2==2.2.1
+facebook-sdk==3.1.0
+google-api-core==2.11.0
+google-api-python-client==2.86.0
+

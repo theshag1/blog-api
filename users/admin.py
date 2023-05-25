@@ -12,4 +12,7 @@ class VerificationCode(admin.ModelAdmin):
     ordering = ['-last_sent_time']
 
 
-admin.site.register(User)
+@admin.register(User)
+class User(admin.ModelAdmin):
+    list_display = ['username', 'email']
+    ordering = ['id']

@@ -29,6 +29,15 @@ class User(AbstractUser):
         return self.get_full_name()
 
 
+class SocialAccount(models.Model):
+    class ProviderTypes(models.TextChoices):
+        GOOGLE = "google"
+        FACEBOOK = 'facebook'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_account')
+    social_account = models.CharField(max_length=50, choices=ProviderTypes.choices)
+
+
 class VerificationCode(models.Model):
     code = models.CharField(max_length=6)
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name="varifaction_codes", null=True,
@@ -45,5 +54,3 @@ class VerificationCode(models.Model):
     @property
     def is_exprice(self):
         return self.expired_at < self.last_sent_time + timedelta(seconds=30)
-
-
