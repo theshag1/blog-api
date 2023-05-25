@@ -5,6 +5,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=250)
+    image = models.ImageField()
     position = models.IntegerField(null=False)
 
     def __str__(self):

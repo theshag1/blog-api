@@ -3,18 +3,20 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.core.mail import send_mail
+from django.db import IntegrityError
 from django.http import Http404
 from django.utils.crypto import get_random_string
 from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import CreateAPIView
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.models import User, VerificationCode
-from users.serializers import RegisterSerializer, LoginSerializer, UserSerializerr, UserDetilSerializer
+from users.serializers import RegisterSerializer, LoginSerializer, UserSerializerr, UserDetilSerializer, \
+    UserUpdateSeriaslizer
 from users.serializers import SendEmailVarificationCodeSerializer, ChekEmailVarificationCodeSerializer
 
 
@@ -77,7 +79,7 @@ class SendEmaiVerificationCode(APIView):
         return Response({'detil': 'Verification'})
 
 
-class ChekEmailVerificaationCode(CreateAPIView):
+class ChekEmailVerificaationCode(generics.CreateAPIView):
     queryset = VerificationCode.objects.all()
     serializer_class = ChekEmailVarificationCodeSerializer
 
@@ -93,3 +95,12 @@ class ChekEmailVerificaationCode(CreateAPIView):
         verification_code.is_verified = True
         verification_code.save(update_fields=["is_verified"])
         return Response({"detail": "Verification code is verified."})
+
+
+class UserUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method in ['PUT', 'PUTCH']:
+            return UserUpdateSeriaslizer
+        return UserUpdateSeriaslizer

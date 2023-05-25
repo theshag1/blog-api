@@ -84,3 +84,15 @@ class BlogCommentView(APIView):
 class Top20View(generics.ListAPIView):
     queryset = Blog.objects.order_by('-created_at')[:20]
     serializer_class = BlogSerializer
+
+
+class BLogUserInterestingView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        interesting = user.interesting
+        user_blog = Blog.objects.filter(blog_interesting=interesting)
+        serializer = BlogSerializer(user_blog, many=True)
+
+        return Response(serializer.data)
